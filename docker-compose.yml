@@ -1,0 +1,62 @@
+services:
+  # ----------------------------------------------------
+  # 1. SERVICIO WEB (PHP + Apache)
+  # ----------------------------------------------------
+  web:
+    build:
+      context: ./docker/php
+    container_name: streambox-web
+    restart: unless-stopped
+    volumes:
+      - ./streambox:/var/www/html
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    networks:
+      - streambox_net
+
+  # ----------------------------------------------------
+  # 2. BASE DE DATOS (MySQL)
+  # ----------------------------------------------------
+  db:
+    image: mysql:8.0
+    container_name: streambox-db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: streamboxdb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - streambox_dbdata:/var/lib/mysql
+    networks:
+      - streambox_net
+
+  # ----------------------------------------------------
+  # 3. PHPMyAdmin
+  # ----------------------------------------------------
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: streambox-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8082:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    depends_on:
+      - db
+    networks:
+      - streambox_net
+
+
+# ----------------------------------------------------
+# 4. RED Y VOLÚMENES
+# ----------------------------------------------------
+networks:
+  streambox_net:
+    driver: bridge
+
+volumes:
+  streambox_dbdata:

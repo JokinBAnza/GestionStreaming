@@ -1,0 +1,24 @@
+# Imagen base PHP-Apache
+FROM php:8.3-apache
+
+# 1. Dependencias del sistema y extensiones PHP necesarias para Laravel
+RUN apt-get update && apt-get install -y \
+    git \
+    unzip \
+    libzip-dev \
+    libpng-dev \
+    libjpeg-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && docker-php-ext-install pdo pdo_mysql zip exif pcntl gd
+
+# 2. Copiar Composer desde imagen oficial
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 3. Copiar configuración de Apache personalizada
+COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+
+# 4. Activar mod_rewrite
+RUN a2enmod rewrite
+
+# 5. Directorio de trabajo
+WORKDIR /var/www/html
