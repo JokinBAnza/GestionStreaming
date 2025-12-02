@@ -1,62 +1,73 @@
 services:
   # ----------------------------------------------------
-  # 1. SERVICIO WEB (PHP + Apache)
+  # 1. SERVICIO DE APLICACIÓN WEB (PHP-Apache)
   # ----------------------------------------------------
   web:
+    # Construye la imagen usando el Dockerfile creado
     build:
       context: ./docker/php
-    container_name: streambox-web
+    container_name: stream-apache
     restart: unless-stopped
+    # Mapea la carpeta local 'app' al directorio de trabajo del contenedor
     volumes:
-      - ./streambox:/var/www/html
+      - ./src:/var/www/html
+    # Expone el puerto 80 del contenedor al puerto 80 del host
     ports:
-      - "8081:80"
+      - "80:80"
     depends_on:
-      - db
+      - catalogo
+    # Conecta a la red interna
     networks:
-      - streambox_net
+      - stream_network
 
   # ----------------------------------------------------
-  # 2. BASE DE DATOS (MySQL)
+  # 2. SERVICIO DE BASE DE DATOS (MySQL)
   # ----------------------------------------------------
-  db:
+  catalogo:
     image: mysql:8.0
-    container_name: streambox-db
+    container_name: stream-mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: streamboxdb
+      # Variables de entorno de MySQL. ¡Cambia las contraseñas!
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: stream_db
       MYSQL_USER: user
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: user
+    # Mapea un volumen para persistir los datos de la base de datos
     volumes:
-      - streambox_dbdata:/var/lib/mysql
+      - stream_dbdata:/var/lib/mysql
     networks:
-      - streambox_net
+      - stream_network
 
   # ----------------------------------------------------
-  # 3. PHPMyAdmin
+  # 3. SERVICIO DE GESTIÓN DE BASES DE DATOS (phpMyAdmin)
   # ----------------------------------------------------
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: streambox-phpmyadmin
+    container_name: stream-phpmyadmin
     restart: unless-stopped
+    # Mapea el puerto 8080 del host al 80 del phpMyAdmin
     ports:
-      - "8082:80"
+      - "8080:80"
     environment:
-      PMA_HOST: db
-      PMA_PORT: 3306
+      # El host es el nombre del servicio Docker de la base de datos
+      PMA_HOST: catalogo
+      # El puerto de MySQL dentro de la red Docker
+      PMA_PORT: 3306 
     depends_on:
-      - db
+      - catalogo
     networks:
-      - streambox_net
+      - stream_network
 
 
 # ----------------------------------------------------
-# 4. RED Y VOLÚMENES
+# 4. REDES Y VOLÚMENES
 # ----------------------------------------------------
 networks:
-  streambox_net:
+  # Red interna para que los contenedores se comuniquen entre sí por nombre
+  stream_network:
     driver: bridge
 
 volumes:
-  streambox_dbdata:
+  # Volumen para persistir los datos de MySQL
+  stream_dbdata:
