@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('genres', function (Blueprint $table) {
             $table->id();
-             $table->enum('Tipo',['Accion', 'Drama', 'Comedia', 'Aventura', 'Thriller', 'Terror']);
+             $table->string('nombre');
             $table->timestamps();
         });
     }

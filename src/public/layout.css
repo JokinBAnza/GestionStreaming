@@ -1,0 +1,125 @@
+/* Fuente general tipo Netflix */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #141414;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* HEADER */
+header {
+    padding: 20px 40px;
+    background-color: #141414;
+    display: flex;
+    flex-direction: column;
+}
+
+header h1 {
+    margin: 0;
+    color: #e50914; /* Rojo Netflix */
+    font-size: 32px;
+    font-weight: bold;
+}
+
+/* NAV */
+nav {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li a {
+    color: #e5e5e5;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffffff;
+}
+
+/* Spacer para empujar el usuario a la derecha */
+.spacer {
+    flex: 1;
+}
+
+/* Usuario */
+.user-link {
+    color: #e5e5e5;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    background-color: #333;
+    transition: background-color 0.3s;
+}
+
+.user-link:hover {
+    background-color: #444;
+}
+
+/* MAIN */
+main {
+    padding: 30px 40px;
+}
+
+/* FOOTER */
+footer {
+    margin-top: 40px;
+    padding: 20px 40px;
+    text-align: center;
+    color: #777;
+}
+
+footer p {
+    margin: 10px 0 0;
+}
+
+
+/* HR estilo Netflix */
+hr {
+    border: none;
+    border-top: 1px solid #333;
+    margin-top: 20px;
+}
+
+/* Tarjetas tipo Netflix (por si las usas en el catálogo) */
+
+.card-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+a{
+    color:rgb(255, 74, 74);
+}
+.card {
+    background-color: #1f1f1f;
+    border-radius: 6px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card img {
+    width: 100%;
+    display: block;
+}
+
+.card-title {
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+}

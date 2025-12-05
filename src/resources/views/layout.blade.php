@@ -12,16 +12,16 @@
         <h1>MediaRoll</h1>
         <nav>
     <ul>
-        <li><a href="{{ route('categories.index') }}">Media</a></li>
-        <li><a href="{{ route('proveedors.index') }}">Géneros</a></li>
-        <li><a href="{{ route('categories.index') }}">Directores</a></li>
+        <li><a href="{{ route('media.index') }}">Media</a></li>
+        <li><a href="{{ route('genres.index') }}">Géneros</a></li>
+        <li><a href="{{ route('directors.index') }}">Directores</a></li>
 
     </ul>
 
     <!-- Spacer empuja el usuario a la derecha -->
     <div class="spacer"></div>
 
-    <a id="nombreUsuario" href="{{ route('perfil.index') }}" class="user-link">
+    <a id="nombreUsuario" href="{{ route('profiles.index') }}" class="user-link">
         {{ $Usuario->nombre ?? 'Usuario' }}
     </a>
 </nav>

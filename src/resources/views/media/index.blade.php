@@ -14,6 +14,7 @@
                 <th>Género</th>
                 <th>Director</th>
                 <th>Estreno</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -21,13 +22,14 @@
             <tr>
                 <td>{{ $product->id }}</td>
                 <td>{{ $product->titulo}}</td>
-                <td>{{ $product->nombre }}</td>
-                <td>{{ $product->precio }} €</td>
-                <td>{{ $product->cantidadStock }} u.</td>
+                <td>{{ $product->formato }}</td>
+                <td>{{ $product->genero }}</td>
+                <td>{{ $product->director }}</td>
+                <td>{{ $product->estreno }}</td>
                 <td>
-                    <a href="{{ route('products.edit', $product) }}">Editar</a>
+                    <a href="{{ route('media.edit', $product) }}">Editar</a>
 
-                    <form id="formBorrar" action="{{ route('products.destroy', $product) }}" method="POST" style="display:inline;">
+                    <form id="formBorrar" action="{{ route('media.destroy', $product) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button id="botonBorrar" type="submit" onclick="return confirm('¿Borrar producto?')">Borrar</button>

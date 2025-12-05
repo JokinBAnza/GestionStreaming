@@ -12,7 +12,8 @@ class MediaController extends Controller
      */
     public function index()
     {
-        //
+        $media = Media::all(); // Trae todos los registros de la tabla media
+        return view('media.index', compact('media'));
     }
 
     /**
