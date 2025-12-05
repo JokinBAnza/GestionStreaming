@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Director extends Model
 {
-    //
+     protected $fillable = [
+        'nombre',
+        'anoNacimiento',
+    ];
+
+    public function medias()
+{
+    return $this->hasMany(Media::class);
+}
 }
