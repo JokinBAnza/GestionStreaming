@@ -10,7 +10,9 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('media', MediaController::class);
+Route::resource('media', MediaController::class)->parameters([
+    'media' => 'media'
+]);
 
 Route::resource('genres', GenreController::class);
 

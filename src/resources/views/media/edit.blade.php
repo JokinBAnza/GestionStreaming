@@ -1,42 +1,54 @@
 @extends('layout')
 
 @section('content')
-    <h2>Editar Producto</h2>
+    <h2>Editar película</h2>
 
-    <form action="{{ route('products.update', $product) }}" method="POST">
+    <form action="{{ route('media.update', $media) }}" method="POST">
         @csrf
         @method('PUT')
-        <label>Proveedores:</label><br>
-        <select name="proveedores[]" multiple required>
-            @foreach($proveedores as $proveedor)
-                <option value="{{ $proveedor->id }}"
-                    {{ $product->proveedores->contains($proveedor->id) ? 'selected' : '' }}>
-                    {{ $proveedor->nombre }}
-                </option>
-            @endforeach
-        </select><br><br>
-        <label for="category_id">Categoría:</label><br>
-        <select name="idCategoria" id="idCategoria" required>
-            @foreach($categories as $category)
-                <option value="{{ $category->id }}" 
-                    {{ $product->idCategoria == $category->id ? 'selected' : '' }}>
-                    {{ $category->nombre }}
-                </option>
-            @endforeach
-        </select><br><br>
 
-        <label for="name">Nombre del Producto:</label><br>
-        <input type="text" name="nombre" value="{{ $product->nombre }}" required><br><br>
+        <div>
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo" value="{{ old('titulo', $media->titulo) }}" required>
+            @error('titulo')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
 
-        <label for="price">Precio:</label><br>
-        <input type="number" step="0.01" name="precio" value="{{ $product->precio }}" required><br><br>
+        <div>
+            <label for="formato">Formato:</label>
+            <input type="text" id="formato" name="formato" value="{{ old('formato', $media->formato) }}">
+            @error('formato')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
 
-        <label for="stock">Stock:</label><br>
-        <input type="number" name="cantidadStock" value="{{ $product->cantidadStock }}" required><br><br>
+        <div>
+            <label for="genero">Género:</label>
+            <input type="text" id="genero" name="genero" value="{{ old('genero', $media->genero) }}">
+            @error('genero')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
 
-        <button type="submit">Actualizar Producto</button>
+        <div>
+            <label for="director">Director:</label>
+            <input type="text" id="director" name="director" value="{{ old('director', $media->director) }}">
+            @error('director')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div>
+            <label for="estreno">Año de estreno:</label>
+            <input type="number" id="estreno" name="estreno" value="{{ old('estreno', $media->estreno) }}">
+            @error('estreno')
+                <div style="color:red">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <br>
+        <button type="submit">Actualizar</button>
+        <a href="{{ route('media.index') }}">Cancelar</a>
     </form>
-
-    <br>
-    <a href="{{ route('products.index') }}">Volver al listado</a>
 @endsection

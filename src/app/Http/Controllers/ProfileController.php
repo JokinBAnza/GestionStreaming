@@ -12,7 +12,8 @@ class ProfileController extends Controller
      */
     public function index()
     {
-         return view('profiles.index');
+        $profiles = Profile::all();
+        return view('profiles.index', compact('profiles'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        //
+        return view('profiles.create');
     }
 
     /**
@@ -28,7 +29,8 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Profile::create($request->all());
+        return redirect()->route('profiles.index');
     }
 
     /**
@@ -36,7 +38,7 @@ class ProfileController extends Controller
      */
     public function show(Profile $profile)
     {
-        //
+        return view('profiles.show', compact('profile'));
     }
 
     /**
@@ -44,7 +46,7 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        //
+        return view('profiles.edit', compact('profile'));
     }
 
     /**
@@ -52,7 +54,8 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+        $profile->update($request->all());
+        return redirect()->route('profiles.index');
     }
 
     /**
@@ -60,6 +63,7 @@ class ProfileController extends Controller
      */
     public function destroy(Profile $profile)
     {
-        //
+        $profile->delete();
+        return redirect()->route('profiles.index');
     }
 }

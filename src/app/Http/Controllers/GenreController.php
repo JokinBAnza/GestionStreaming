@@ -20,7 +20,7 @@ class GenreController extends Controller
      */
     public function create()
     {
-        //
+        return view('genres.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('genres.index');
     }
 
     /**
@@ -36,7 +36,7 @@ class GenreController extends Controller
      */
     public function show(Genre $genre)
     {
-        //
+        return view('genres.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        //
+        return view('genres.index');
     }
 
     /**
@@ -52,7 +52,7 @@ class GenreController extends Controller
      */
     public function update(Request $request, Genre $genre)
     {
-        //
+        return view('genres.index');
     }
 
     /**
@@ -60,6 +60,6 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        //
+        return view('genres.index');
     }
 }

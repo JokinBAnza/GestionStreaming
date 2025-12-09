@@ -20,7 +20,7 @@ class DirectorController extends Controller
      */
     public function create()
     {
-        //
+        return view('directors.index');
     }
 
     /**
@@ -28,7 +28,7 @@ class DirectorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('directors.index');
     }
 
     /**
@@ -36,7 +36,7 @@ class DirectorController extends Controller
      */
     public function show(Director $director)
     {
-        //
+        return view('directors.index');
     }
 
     /**
@@ -44,7 +44,7 @@ class DirectorController extends Controller
      */
     public function edit(Director $director)
     {
-        //
+        return view('directors.index');
     }
 
     /**
@@ -52,7 +52,7 @@ class DirectorController extends Controller
      */
     public function update(Request $request, Director $director)
     {
-        //
+        return view('directors.index');
     }
 
     /**
@@ -60,6 +60,6 @@ class DirectorController extends Controller
      */
     public function destroy(Director $director)
     {
-        //
+        return view('directors.index');
     }
 }

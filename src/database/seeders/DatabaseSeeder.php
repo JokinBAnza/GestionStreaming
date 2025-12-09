@@ -67,5 +67,11 @@ class DatabaseSeeder extends Seeder
                 $media->genres()->attach(array_rand(array_flip($genreIds), rand(1, 3)));
             });
 
+
+        User::factory()
+            ->count(10)
+            ->hasProfile() // esto requiere que tengas definido `ProfileFactory`
+            ->create();
+
     }
 }
