@@ -17,24 +17,49 @@
 
         <div>
             <label for="formato">Formato:</label>
-            <input type="text" id="formato" name="formato" value="{{ old('formato', $media->formato) }}">
+            <select id="formato" name="formato" required>
+                @foreach(['Pelicula', 'Serie', 'Documental'] as $opcion)
+                    <option value="{{ $opcion }}" {{ old('formato', $media->formato) == $opcion ? 'selected' : '' }}>
+                        {{ $opcion }}
+                    </option>
+                @endforeach
+            </select>
             @error('formato')
                 <div style="color:red">{{ $message }}</div>
             @enderror
         </div>
 
         <div>
-            <label for="genero">Género:</label>
-            <input type="text" id="genero" name="genero" value="{{ old('genero', $media->genero) }}">
-            @error('genero')
+            <label for="generos">Géneros:</label><br>
+            <select name="generos[]" id="generos" multiple>
+                @foreach($genres as $genre)
+                    <option value="{{ $genre->id }}" {{ $media->genres->contains($genre->id) ? 'selected' : '' }}>
+                        {{ $genre->nombre }}
+                    </option>
+                @endforeach
+            </select><br><br>
+        </div>
+
+        <div>
+            <label for="director_id">Director existente:</label>
+            <select id="director_id" name="director_id">
+                <option value="">-- Ninguno --</option>
+                @foreach($directors as $director)
+                    <option value="{{ $director->id }}" {{ old('director_id', $media->director) == $director->id ? 'selected' : '' }}>
+                        {{ $director->nombre }}
+                    </option>
+                @endforeach
+            </select>
+            @error('director_id')
                 <div style="color:red">{{ $message }}</div>
             @enderror
         </div>
 
         <div>
-            <label for="director">Director:</label>
-            <input type="text" id="director" name="director" value="{{ old('director', $media->director) }}">
-            @error('director')
+            <label for="nuevo_director">O añadir nuevo director:</label>
+            <input type="text" id="nuevo_director" name="nuevo_director" value="{{ old('nuevo_director') }}">
+            <input type="number" id="nuevo_director_ano" name="nuevo_director_ano" placeholder="Año nacimiento" value="{{ old('nuevo_director_ano') }}">
+            @error('nuevo_director')
                 <div style="color:red">{{ $message }}</div>
             @enderror
         </div>

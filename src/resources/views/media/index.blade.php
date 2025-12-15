@@ -11,28 +11,42 @@
                 <th>ID</th>
                 <th>Título</th>
                 <th>Formato</th>
-                <th>Género</th>
                 <th>Director</th>
                 <th>Estreno</th>
+                <th>Géneros</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($media as $product)
+            @foreach ($medias as $media)
             <tr>
-                <td>{{ $product->id }}</td>
-                <td>{{ $product->titulo}}</td>
-                <td>{{ $product->formato }}</td>
-                <td>{{ $product->genero }}</td>
-                <td>{{ $product->director }}</td>
-                <td>{{ $product->estreno }}</td>
-                <td>
-                    <a href="{{ route('media.edit', $product) }}">Editar</a>
+                <td>{{ $media->id }}</td>
+                <td>{{ $media->titulo }}</td>
+                <td>{{ $media->formato }}</td>
+               <td>
+    @if($media->directorRel)
+        {{ $media->directorRel->nombre }}
+    @else
+        No asignado
+    @endif
+</td>
 
-                    <form id="formBorrar" action="{{ route('media.destroy', $product) }}" method="POST" style="display:inline;">
+
+                <td>{{ $media->estreno }}</td>
+                <td>
+                    @if($media->genres->isNotEmpty())
+                        {{ $media->genres->pluck('nombre')->join(', ') }}
+                    @else
+                        -
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('media.edit', $media) }}">Editar</a>
+
+                    <form id="formBorrar" action="{{ route('media.destroy', $media) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button id="botonBorrar" type="submit" onclick="return confirm('¿Borrar producto?')">Borrar</button>
+                        <button id="botonBorrar" type="submit" onclick="return confirm('¿Borrar media?')">Borrar</button>
                     </form>
                 </td>
             </tr>

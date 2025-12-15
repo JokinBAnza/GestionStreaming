@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -21,7 +22,8 @@ class ProfileController extends Controller
      */
     public function create()
     {
-        return view('profiles.create');
+        $users = User::all();
+    return view('profiles.create', compact('users'));
     }
 
     /**
@@ -29,34 +31,63 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        Profile::create($request->all());
-        return redirect()->route('profiles.index');
+         $request->validate([
+        'nombre' => 'required|string|max:255',
+        'edad' => 'required|integer|min:1|max:120',
+        'sexo' => 'required|in:H,M',
+        'user_id' => 'required|exists:users,id',
+    ]);
+
+    Profile::create([
+        'nombre' => $request->nombre,
+        'edad' => $request->edad,
+        'sexo' => $request->sexo,
+        'user_id' => $request->user_id,
+    ]);
+
+    return redirect()->route('profiles.index')->with('success', 'Perfil creado correctamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Profile $profile)
-    {
-        return view('profiles.show', compact('profile'));
-    }
+   public function show(Profile $profile)
+{
+    // No necesitas traer todos los perfiles, solo este
+    return view('profiles.show', compact('profile'));
+}
+
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Profile $profile)
     {
-        return view('profiles.edit', compact('profile'));
+        $users = User::all(); // para elegir usuario asociado
+    return view('profiles.edit', compact('profile', 'users'));
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Profile $profile)
-    {
-        $profile->update($request->all());
-        return redirect()->route('profiles.index');
-    }
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'edad' => 'required|integer|min:1|max:120',
+        'sexo' => 'required|in:H,M',
+        'user_id' => 'required|exists:users,id',
+    ]);
+
+    $profile->update([
+        'nombre' => $request->nombre,
+        'edad' => $request->edad,
+        'sexo' => $request->sexo,
+        'user_id' => $request->user_id,
+    ]);
+
+    return redirect()->route('profiles.index')->with('success', 'Perfil actualizado correctamente.');
+}
 
     /**
      * Remove the specified resource from storage.

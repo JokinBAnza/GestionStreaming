@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->enum('formato',['Pelicula', 'Serie', 'Documental']);
-            $table->foreignId('genero')->constrained('genres');
             $table->foreignId('director')->constrained('directors'); 
             $table->integer('estreno');
             $table->timestamps();

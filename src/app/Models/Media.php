@@ -12,14 +12,15 @@ class Media extends Model
      protected $fillable = [
         'titulo',
         'formato',
-        'genero',
         'director',
         'estreno',
     ];
-    public function director()
+    public function directorRel()
 {
-    return $this->belongsTo(Director::class);
+    return $this->belongsTo(Director::class, 'director'); // 'director' es el nombre de la columna
 }
+
+
 public function genres() {
     return $this->belongsToMany(Genre::class, 'media_genres', 'media_id', 'genre_id');
 }

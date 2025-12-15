@@ -11,8 +11,9 @@ class Director extends Model
         'anoNacimiento',
     ];
 
-    public function medias()
+public function medias()
 {
-    return $this->hasMany(Media::class);
+    return $this->hasMany(Media::class, 'director'); // 'director' es la columna en media
 }
+
 }

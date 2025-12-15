@@ -11,10 +11,11 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Nombre</th>
+                <th>Nickname</th>
                 <th>Edad</th>
                 <th>Sexo</th>
                 <th>Usuario asociado</th>
+                <th>Email</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -26,7 +27,8 @@
                     <td>{{ $profile->nombre }}</td>
                     <td>{{ $profile->edad }}</td>
                     <td>{{ $profile->sexo }}</td>
-                    <td>{{ $profile->usuario->email ?? 'Sin usuario' }}</td>
+                    <td>{{$profile->user->id ?? 'Sin usuario'}}</td>
+                    <td>{{ $profile->user->email ?? 'Sin email' }}</td>
 
                     <td>
                         <a href="{{ route('profiles.edit', $profile) }}" class="btn-save" style="padding:6px 10px;">

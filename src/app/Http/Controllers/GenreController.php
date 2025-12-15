@@ -7,59 +7,57 @@ use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Muestra todos los géneros
     public function index()
     {
-         return view('genres.index');
+        $genres = Genre::all();
+        return view('genres.index', compact('genres'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Muestra el formulario para crear un nuevo género
     public function create()
     {
-        return view('genres.index');
+        return view('genres.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Guarda un nuevo género
     public function store(Request $request)
     {
-        return view('genres.index');
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:genres,nombre',
+        ]);
+
+        Genre::create([
+            'nombre' => $request->nombre,
+        ]);
+
+        return redirect()->route('genres.index')->with('success', 'Género creado correctamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Genre $genre)
-    {
-        return view('genres.index');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Muestra el formulario para editar un género
     public function edit(Genre $genre)
     {
-        return view('genres.index');
+        return view('genres.edit', compact('genre'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    // Actualiza un género existente
     public function update(Request $request, Genre $genre)
     {
-        return view('genres.index');
+        $request->validate([
+            'nombre' => 'required|string|max:255|unique:genres,nombre,' . $genre->id,
+        ]);
+
+        $genre->update([
+            'nombre' => $request->nombre,
+        ]);
+
+        return redirect()->route('genres.index')->with('success', 'Género actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Elimina un género
     public function destroy(Genre $genre)
     {
-        return view('genres.index');
+        $genre->delete();
+        return redirect()->route('genres.index')->with('success', 'Género eliminado correctamente.');
     }
 }

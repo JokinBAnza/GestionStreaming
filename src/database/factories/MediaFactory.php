@@ -25,7 +25,6 @@ class MediaFactory extends Factory
         return [
             'titulo' => $this->faker->sentence(2), // título de 2 palabras
             'formato' => $this->faker->randomElement($formatos),
-            'genero' => $this->faker->randomElement($genreIds),
             'director' => $this->faker->randomElement($directorIds),
             'estreno' => $this->faker->numberBetween(1980, 2025),
         ];
