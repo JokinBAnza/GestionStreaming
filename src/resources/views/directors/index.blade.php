@@ -11,7 +11,7 @@
             <th>ID</th>
             <th>Nombre</th>
             <th>Año de Nacimiento</th>
-            <th>Peliculas dirigidas</th>
+            <th>Obras dirigidas</th>
             <th>Acciones</th>
         </tr>
     </thead>

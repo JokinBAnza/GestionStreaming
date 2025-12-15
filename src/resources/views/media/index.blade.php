@@ -2,10 +2,9 @@
 
 @section('content')
     <h2>Media</h2>
-    <a href="{{ route('media.create') }}">Insertar nueva película</a>
-    <br><br>
+    <a href="{{ route('media.create') }}" class="btn btn-primary mb-3">Insertar nueva película</a>
 
-    <table border="1" cellpadding="10">
+<table border="1" cellpadding="10">
         <thead>
             <tr>
                 <th>ID</th>
@@ -19,37 +18,41 @@
         </thead>
         <tbody>
             @foreach ($medias as $media)
-            <tr>
-                <td>{{ $media->id }}</td>
-                <td>{{ $media->titulo }}</td>
-                <td>{{ $media->formato }}</td>
-               <td>
-    @if($media->directorRel)
-        {{ $media->directorRel->nombre }}
-    @else
-        No asignado
-    @endif
-</td>
+                <tr>
+                    <td>{{ $media->id }}</td>
+                    <td>{{ $media->titulo }}</td>
+                    <td>{{ $media->formato }}</td>
+                    <td>
+                        @if($media->directorRel)
+                            <a href="{{ route('directors.medias', $media->directorRel) }}">
+                                {{ $media->directorRel->nombre }}
+                            </a>
+                        @else
+                            No asignado
+                        @endif
+                    </td>
+                    <td>{{ $media->estreno }}</td>
+                    <td>
+                        @if($media->genres->isNotEmpty())
+                            @foreach($media->genres as $genre)
+                                <a href="{{ route('media.porGenero', $genre) }}">
+                                    {{ $genre->nombre }}
+                                </a>{{ !$loop->last ? ', ' : '' }}
+                            @endforeach
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('media.edit', $media) }}" class="btn btn-sm btn-warning">Editar</a>
 
-
-                <td>{{ $media->estreno }}</td>
-                <td>
-                    @if($media->genres->isNotEmpty())
-                        {{ $media->genres->pluck('nombre')->join(', ') }}
-                    @else
-                        -
-                    @endif
-                </td>
-                <td>
-                    <a href="{{ route('media.edit', $media) }}">Editar</a>
-
-                    <form id="formBorrar" action="{{ route('media.destroy', $media) }}" method="POST" style="display:inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button id="botonBorrar" type="submit" onclick="return confirm('¿Borrar media?')">Borrar</button>
-                    </form>
-                </td>
-            </tr>
+                        <form action="{{ route('media.destroy', $media) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Borrar media?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
