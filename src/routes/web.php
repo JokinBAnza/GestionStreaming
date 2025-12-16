@@ -29,3 +29,4 @@ Route::get('/directors/{director}/medias', [DirectorController::class, 'medias']
 
 
 
+
