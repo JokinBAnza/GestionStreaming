@@ -2,99 +2,59 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profile;
-use App\Models\User;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display the user's profile form.
      */
-    public function index()
+    public function edit(Request $request): View
     {
-        $profiles = Profile::all();
-        return view('profiles.index', compact('profiles'));
+        return view('profile.edit', [
+            'user' => $request->user(),
+        ]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Update the user's profile information.
      */
-    public function create()
+    public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $users = User::all();
-    return view('profiles.create', compact('users'));
+        $request->user()->fill($request->validated());
+
+        if ($request->user()->isDirty('email')) {
+            $request->user()->email_verified_at = null;
+        }
+
+        $request->user()->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Delete the user's account.
      */
-    public function store(Request $request)
+    public function destroy(Request $request): RedirectResponse
     {
-         $request->validate([
-        'nombre' => 'required|string|max:255',
-        'edad' => 'required|integer|min:1|max:120',
-        'sexo' => 'required|in:H,M',
-        'user_id' => 'required|exists:users,id',
-    ]);
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
 
-    Profile::create([
-        'nombre' => $request->nombre,
-        'edad' => $request->edad,
-        'sexo' => $request->sexo,
-        'user_id' => $request->user_id,
-    ]);
+        $user = $request->user();
 
-    return redirect()->route('profiles.index')->with('success', 'Perfil creado correctamente.');
-    }
+        Auth::logout();
 
-    /**
-     * Display the specified resource.
-     */
-   public function show(Profile $profile)
-{
-    // No necesitas traer todos los perfiles, solo este
-    return view('profiles.show', compact('profile'));
-}
+        $user->delete();
 
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Profile $profile)
-    {
-        $users = User::all(); // para elegir usuario asociado
-    return view('profiles.edit', compact('profile', 'users'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Profile $profile)
-{
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'edad' => 'required|integer|min:1|max:120',
-        'sexo' => 'required|in:H,M',
-        'user_id' => 'required|exists:users,id',
-    ]);
-
-    $profile->update([
-        'nombre' => $request->nombre,
-        'edad' => $request->edad,
-        'sexo' => $request->sexo,
-        'user_id' => $request->user_id,
-    ]);
-
-    return redirect()->route('profiles.index')->with('success', 'Perfil actualizado correctamente.');
-}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Profile $profile)
-    {
-        $profile->delete();
-        return redirect()->route('profiles.index');
+        return Redirect::to('/');
     }
 }
